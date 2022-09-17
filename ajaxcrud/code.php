@@ -22,7 +22,7 @@ $uploads_dir = 'images';
     move_uploaded_file($tname, $uploads_dir.'/'.$pname);
  
 
-    $query = "INSERT INTO students (fname,lname,class,section,files) VALUES ('$fname','$lname','$class','$section','$files')";
+    $query = "INSERT INTO students (fname,lname,class,section,files) VALUES ('$fname','$lname','$class','$section','$pname')";
     $query_run = mysqli_query($conn, $query);
 
     if($query_run)
