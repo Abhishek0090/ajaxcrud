@@ -8,8 +8,21 @@ if(isset($_POST['checking_add']))
     $lname = $_POST['lname'];
     $class = $_POST['class'];
     $section = $_POST['section'];
+    $files = $_POST['files'];
 
-    $query = "INSERT INTO students (fname,lname,class,section) VALUES ('$fname','$lname','$class','$section')";
+     #file name with a random number so that similar dont get replaced
+     $pname = rand(1000,10000)."-".$_FILES["file"]["name"];
+ 
+    #temporary file name to store file
+    $tname = $_FILES["file"]["tmp_name"];
+   
+     #upload directory path
+$uploads_dir = 'images';
+    #TO move the uploaded file to specific location
+    move_uploaded_file($tname, $uploads_dir.'/'.$pname);
+ 
+
+    $query = "INSERT INTO students (fname,lname,class,section,files) VALUES ('$fname','$lname','$class','$section','$files')";
     $query_run = mysqli_query($conn, $query);
 
     if($query_run)
@@ -46,6 +59,7 @@ if(isset($_POST['checking_view']))
     }
 }
 ?>
+
 
 <?php 
 
@@ -87,6 +101,7 @@ if(isset($_POST['checking_update']))
     $lname = $_POST['lname'];
     $class = $_POST['class'];
     $section = $_POST['section'];
+    $files = $_POST['files'];
 
 
 

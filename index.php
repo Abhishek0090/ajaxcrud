@@ -48,7 +48,13 @@
                             <label for="">Section</label>
                             <input type="text" id="edit_section" class="form-control">
                         </div>
+                        <div class="col-md-6">
+                        <input type="File" name="file" enctype="multipart/form-data">
+                        <input type="submit" name="submit">
+ 
+                        </div>
                     </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -74,6 +80,7 @@
                     <h4 class="lname_view"></h4>
                     <h4 class="class_view"></h4>
                     <h4 class="section_view"></h4>
+                    <h4 class="file_view"></h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -117,11 +124,16 @@
                     <input type="text" class="form-control section">
                 </div>
             </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary student_add_ajax">Save</button>
-      </div>
+            <div class="col-md-6 mt-2">
+                <form method="post"  enctype="multipart/form-data">
+                    <input type="File" name="file" class="files" >
+                </form>
+            </div>
+</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button"  class="btn btn-primary student_add_ajax">Save</button>
+            </div>
     </div>
   </div>
 </div>
@@ -132,7 +144,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4>
-                            PHP - AJAX - CRUD | Data without page reload using jquery ajax .
+                            PHP - AJAX - CRUD | Data using jquery ajax .
                             <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#Student_AddModal">
                                 Add data
                             </button>
@@ -151,6 +163,7 @@
                                     <th>Class</th>
                                     <th>Section</th>
                                     <th>Action</th>
+                                    <th>Files</th>
                                 </tr>
                             </thead>
                             <tbody class="studentdata">
@@ -190,6 +203,7 @@
         },
         success: function (response) {
             // console.log(response);
+
                             $('.message-show').append('\
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">\
                                     <strong>Hey!</strong> '+response+'.\
@@ -200,7 +214,7 @@
                             ');
                             $('.studentdata').html("");
                             getdata();
-            }});
+            }});S
     
 
     
