@@ -48,11 +48,7 @@
                             <label for="">Section</label>
                             <input type="text" id="edit_section" class="form-control">
                         </div>
-                        <div class="col-md-6">
-                        <input type="File" name="file" enctype="multipart/form-data">
-                        <input type="submit" name="submit">
- 
-                        </div>
+                        
                     </div>
 
             </div>
@@ -80,7 +76,6 @@
                     <h4 class="lname_view"></h4>
                     <h4 class="class_view"></h4>
                     <h4 class="section_view"></h4>
-                    <h4 class="file_view"></h4>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -124,12 +119,11 @@
                     <input type="text" class="form-control section">
                 </div>
             </div>
-            <div class="col-md-6 mt-2">
-                <form method="post"  enctype="multipart/form-data">
-                    <input type="File" name="file" class="files" >
-                </form>
+            <div class="mb-3">
+             <label for="formFile" class="form-label">Upload</label>
+                <input class="form-control" type="file" id="formfile">
             </div>
-</div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button"  class="btn btn-primary student_add_ajax">Save</button>
@@ -137,6 +131,7 @@
     </div>
   </div>
 </div>
+
 
     <div class="container mt-5">
         <div class="row">
@@ -331,6 +326,7 @@ $.ajax({
                             $('.lname_view').text(studview['lname']);
                             $('.class_view').text(studview['class']);
                             $('.section_view').text(studview['section']);
+                            // $('.files_view').text(studview['files']);
                         });
                         $('#StudentViewModal').modal('show');
                     }
@@ -347,6 +343,7 @@ $.ajax({
                 var lname = $('.lname').val();
                 var stu_class = $('.class').val();
                 var section = $('.section').val();
+                // var files = $('.files').val();
 
                 if(fname != '' & lname !='' & stu_class !='' & section !='')
                 {
@@ -359,6 +356,7 @@ $.ajax({
                             'lname': lname,
                             'class': stu_class,
                             'section': section,
+                            // 'files': files,
                         },
                         success: function (response) {
                             // console.log(response);
@@ -377,6 +375,7 @@ $.ajax({
                             $('.lname').val("");
                             $('.class').val("");
                             $('.section').val("");
+                       
                         }
                     });
 
@@ -396,6 +395,7 @@ $.ajax({
                 
             });
         });
+        
         function getdata()
         {
             $.ajax({

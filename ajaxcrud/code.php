@@ -8,21 +8,8 @@ if(isset($_POST['checking_add']))
     $lname = $_POST['lname'];
     $class = $_POST['class'];
     $section = $_POST['section'];
-    $files = $_POST['files'];
 
-     #file name with a random number so that similar dont get replaced
-     $pname = rand(1000,10000)."-".$_FILES["file"]["name"];
- 
-    #temporary file name to store file
-    $tname = $_FILES["file"]["tmp_name"];
-   
-     #upload directory path
-$uploads_dir = 'images';
-    #TO move the uploaded file to specific location
-    move_uploaded_file($tname, $uploads_dir.'/'.$pname);
- 
-
-    $query = "INSERT INTO students (fname,lname,class,section,files) VALUES ('$fname','$lname','$class','$section','$pname')";
+    $query = "INSERT INTO students (fname,lname,class,section) VALUES ('$fname','$lname','$class','$section')";
     $query_run = mysqli_query($conn, $query);
 
     if($query_run)
@@ -71,7 +58,7 @@ if(isset($_POST['checking_edit']))
     $result_array = [];
 
     $query = "SELECT * FROM students WHERE id='$stud_id' ";
-    $query_run = mysqli_query($conn, $query);
+    $query_run = mysqli_query($conn, $query);       
 
     if(mysqli_num_rows($query_run) > 0)
     {
@@ -101,11 +88,11 @@ if(isset($_POST['checking_update']))
     $lname = $_POST['lname'];
     $class = $_POST['class'];
     $section = $_POST['section'];
-    $files = $_POST['files'];
+    // $files = $_POST['files'];
 
 
 
-    $query = "UPDATE students SET fname=' $fname ' , lname=' $lname' , class = '$class',section='$section' WHERE id='$id' ";
+    $query = "UPDATE students SET fname=' $fname ' , lname=' $lname' , class = '$class',section='$section'  WHERE id='$id' ";
     $query_run = mysqli_query($conn, $query);
 
     if(($query_run) > 0)
