@@ -11,7 +11,7 @@
     <title>PHP - AJAX - CRUD</title>
 </head>
 <body>
-    
+    <br>
     <button><a  href = "pdf.php" target="_blank">Download now</a></button>
     <!-- Edit Modal -->
     <div class="modal fade" id="StudentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
@@ -129,54 +129,54 @@
   </div>
 </div>
 
-
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
+<div class="message-show">
+    
+    </div>
+    <div class="container my-5">
+        
+                    
                         <h4>
                             PHP - AJAX - CRUD | Data using jquery ajax .
                             <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#Student_AddModal">
                                 Add data
                             </button>
                         </h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="message-show">
+           
 
-                        </div>
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Class</th>
-                                    <th>Section</th>
-                                    <th>Action</th>
-                             
-                                </tr>
-                            </thead>
-                            <tbody class="studentdata">
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+</div>
+    <div class="container my-4">
+                      
+                      <table class="table" id="myTable">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>First Name</th>
+                                  <th>Last Name</th>
+                                  <th>Class</th>
+                                  <th>Section</th>
+                                  <th>Actions</th>
+                                  
+                                  
+                              </tr>
+                          </thead>
+                          <tbody class="studentdata">
+                              
+                              </tbody>
+                          </table>
+           
+              </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            
+            $('#myTable').DataTable();
             getdata();
             
              //data insertion
@@ -389,15 +389,6 @@ success: function (response) {
             }});S
     
 
-    
-
-
-
-  
-
-   
-            
-           
         });
         
         function getdata()
