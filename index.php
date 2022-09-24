@@ -12,14 +12,14 @@
 </head>
 <body>
     
-
+    <button><a  href = "pdf.php" target="_blank">Download now</a></button>
     <!-- Edit Modal -->
-    <div class="modal fade" id="StudentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="StudentEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Edit Student Data</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-target="#StudentEditModal">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -66,7 +66,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Student Detail View</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" data-target="#StudentViewModal">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -91,7 +91,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add Student Data using jQuery Ajax</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"  data-target="#Student_AddModal">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -119,10 +119,7 @@
                     <input type="text" class="form-control section">
                 </div>
             </div>
-            <div class="mb-3">
-             <label for="formFile" class="form-label">Upload</label>
-                <input class="form-control" type="file" id="formfile">
-            </div>
+            
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -158,7 +155,7 @@
                                     <th>Class</th>
                                     <th>Section</th>
                                     <th>Action</th>
-                                    <th>Files</th>
+                             
                                 </tr>
                             </thead>
                             <tbody class="studentdata">
@@ -179,26 +176,36 @@
 
     <script>
         $(document).ready(function () {
-
+            
             getdata();
+            
+             //data insertion
+             $('.student_add_ajax').click(function (e) { 
+                e.preventDefault();
+                
+                var fname = $('.fname').val();
+                var lname = $('.lname').val();
+                var stu_class = $('.class').val();
+                var section = $('.section').val();
+             
+             
 
-            //data deleting
-
-            $(document).on("click", ".delete_btn", function () {
-
-            var stud_id = $(this).closest('tr').find('.stud_id').text();
-            // alert(stud_id);
-
-        $.ajax({
-        type: "POST",
-        url: "ajaxcrud/code.php",
-        data: {
-            'checking_delete': true,
-            'stud_id': stud_id,
-        },
-        success: function (response) {
-            // console.log(response);
-
+                if(fname != '' & lname !='' & stu_class !='' & section !='')
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "ajaxcrud/code.php",
+                        data: {
+                            'checking_add':true,
+                            'fname': fname,
+                            'lname': lname,
+                            'class': stu_class,
+                            'section': section,
+                      
+                        },
+                        success: function (response) {
+                            // console.log(response);
+                            $('#Student_AddModal').modal('hide');
                             $('.message-show').append('\
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">\
                                     <strong>Hey!</strong> '+response+'.\
@@ -209,12 +216,62 @@
                             ');
                             $('.studentdata').html("");
                             getdata();
-            }});S
-    
+                            $('.fname').val("");
+                            $('.lname').val("");
+                            $('.class').val("");
+                            $('.section').val("");
+                      
+                       
+                        }
+                    });
 
-    
+                }
+                else
+                {
+                    // console.log("Please enter all fileds.");
+                    $('.error-message').append('\
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">\
+                            <strong>Hey!</strong> Please enter all fileds.\
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                                <span aria-hidden="true">&times;</span>\
+                            </button>\
+                        </div>\
+                    ');
+                }
+                
+            });
+             //data viewing
+
+             $(document).on("click",'.viewbtn', function () {
+                var stud_id = $(this).closest('tr').find('.stud_id').text();
+                // alert(stud_id);
 
 
+                $.ajax({
+                    type: "POST",
+                    url: "ajaxcrud/code.php",
+                    data: {
+                        'checking_view': true,
+                        'stud_id': stud_id,
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        $.each(response, function (key, studview)  { 
+                            // console.log(studview['fname']);
+                            $('.id_view').text(studview['id']);
+                            $('.fname_view').text(studview['fname']);
+                            $('.lname_view').text(studview['lname']);
+                            $('.class_view').text(studview['class']);
+                            $('.section_view').text(studview['section']);
+
+                        });
+                        $('#StudentViewModal').modal('show');
+                    }
+
+            })
+        }
+            )
+            
             //data updating 
             $('.student_update_ajax').click(function (e) { 
                 e.preventDefault();
@@ -271,129 +328,76 @@
                 
             });
 
-
-        
+                  
             //data editing
 
 $(document).on("click", ".edit_btn", function () {
 
-    var stud_id = $(this).closest('tr').find('.stud_id').text();
+var stud_id = $(this).closest('tr').find('.stud_id').text();
 // alert(stud_id);
 
 $.ajax({
-    type: "POST",
-    url: "ajaxcrud/code.php",
-    data: {
-        'checking_edit': true,
-        'stud_id': stud_id,
-    },
-    success: function (response) {
-        // console.log(response);
-        $.each(response, function (key, studedit) { 
-            // console.log(studview['fname']);
-            $('#id_edit').val(studedit['id']);
-            $('#edit_fname').val(studedit['fname']);
-            $('#edit_lname').val(studedit['lname']);
-            $('#edit_class').val(studedit['class']);
-            $('#edit_section').val(studedit['section']);
-        });
-        $('#StudentEditModal').modal('show');
-    }
+type: "POST",
+url: "ajaxcrud/code.php",
+data: {
+    'checking_edit': true,
+    'stud_id': stud_id,
+},
+success: function (response) {
+    // console.log(response);
+    $.each(response, function (key, studedit) { 
+        // console.log(studview['fname']);
+        $('#id_edit').val(studedit['id']);
+        $('#edit_fname').val(studedit['fname']);
+        $('#edit_lname').val(studedit['lname']);
+        $('#edit_class').val(studedit['class']);
+        $('#edit_section').val(studedit['section']);
+    });
+    $('#StudentEditModal').modal('show');
+}
 });
 
 });
 
-    //data viewing
+            //data deleting
 
-            $(document).on("click",'.viewbtn', function () {
-                var stud_id = $(this).closest('tr').find('.stud_id').text();
-                // alert(stud_id);
+            $(document).on("click", ".delete_btn", function () {
+
+            var stud_id = $(this).closest('tr').find('.stud_id').text();
+            // alert(stud_id);
+
+        $.ajax({
+        type: "POST",
+        url: "ajaxcrud/code.php",
+        data: {
+            'checking_delete': true,
+            'stud_id': stud_id,
+        },
+        success: function (response) {
+            // console.log(response);
+
+                $('.message-show').append('\
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">\
+                        <strong>Hey!</strong> '+response+'.\
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
+                            <span aria-hidden="true">&times;</span>\
+                        </button>\
+                    </div>\
+                ');
+                $('.studentdata').html("");
+                getdata();
+            }});S
+    
+
+    
 
 
-                $.ajax({
-                    type: "POST",
-                    url: "ajaxcrud/code.php",
-                    data: {
-                        'checking_view': true,
-                        'stud_id': stud_id,
-                    },
-                    success: function (response) {
-                        // console.log(response);
-                        $.each(response, function (key, studview)  { 
-                            // console.log(studview['fname']);
-                            $('.id_view').text(studview['id']);
-                            $('.fname_view').text(studview['fname']);
-                            $('.lname_view').text(studview['lname']);
-                            $('.class_view').text(studview['class']);
-                            $('.section_view').text(studview['section']);
-                            // $('.files_view').text(studview['files']);
-                        });
-                        $('#StudentViewModal').modal('show');
-                    }
 
-            })
-        }
-            )
+  
+
+   
             
-            //data insertion
-            $('.student_add_ajax').click(function (e) { 
-                e.preventDefault();
-                
-                var fname = $('.fname').val();
-                var lname = $('.lname').val();
-                var stu_class = $('.class').val();
-                var section = $('.section').val();
-                // var files = $('.files').val();
-
-                if(fname != '' & lname !='' & stu_class !='' & section !='')
-                {
-                    $.ajax({
-                        type: "POST",
-                        url: "ajaxcrud/code.php",
-                        data: {
-                            'checking_add':true,
-                            'fname': fname,
-                            'lname': lname,
-                            'class': stu_class,
-                            'section': section,
-                            // 'files': files,
-                        },
-                        success: function (response) {
-                            // console.log(response);
-                            $('#Student_AddModal').modal('hide');
-                            $('.message-show').append('\
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">\
-                                    <strong>Hey!</strong> '+response+'.\
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
-                                        <span aria-hidden="true">&times;</span>\
-                                    </button>\
-                                </div>\
-                            ');
-                            $('.studentdata').html("");
-                            getdata();
-                            $('.fname').val("");
-                            $('.lname').val("");
-                            $('.class').val("");
-                            $('.section').val("");
-                       
-                        }
-                    });
-
-                }
-                else
-                {
-                    // console.log("Please enter all fileds.");
-                    $('.error-message').append('\
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">\
-                            <strong>Hey!</strong> Please enter all fileds.\
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">\
-                                <span aria-hidden="true">&times;</span>\
-                            </button>\
-                        </div>\
-                    ');
-                }
-                
-            });
+           
         });
         
         function getdata()

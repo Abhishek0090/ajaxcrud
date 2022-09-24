@@ -9,6 +9,7 @@ if(isset($_POST['checking_add']))
     $class = $_POST['class'];
     $section = $_POST['section'];
 
+
     $query = "INSERT INTO students (fname,lname,class,section) VALUES ('$fname','$lname','$class','$section')";
     $query_run = mysqli_query($conn, $query);
 
@@ -28,7 +29,7 @@ if(isset($_POST['checking_view']))
     $stud_id = $_POST['stud_id'];
     $result_array = [];
     
-    $query = "SELECT * FROM students WHERE id='$stud_id' ";
+    $query = "SELECT * FROM `students` WHERE id='".$stud_id."' ";
     $query_run = mysqli_query($conn, $query);
     
     if(mysqli_num_rows($query_run) > 0)
@@ -57,7 +58,7 @@ if(isset($_POST['checking_edit']))
     $stud_id = $_POST['stud_id'];
     $result_array = [];
 
-    $query = "SELECT * FROM students WHERE id='$stud_id' ";
+    $query = "SELECT * FROM students WHERE id='".$stud_id."' ";
     $query_run = mysqli_query($conn, $query);       
 
     if(mysqli_num_rows($query_run) > 0)
@@ -88,11 +89,11 @@ if(isset($_POST['checking_update']))
     $lname = $_POST['lname'];
     $class = $_POST['class'];
     $section = $_POST['section'];
-    // $files = $_POST['files'];
+    
 
 
 
-    $query = "UPDATE students SET fname=' $fname ' , lname=' $lname' , class = '$class',section='$section'  WHERE id='$id' ";
+    $query = "UPDATE students SET fname='$fname' , lname='$lname' , class = '$class',section='$section'  WHERE id='".$id."' ";
     $query_run = mysqli_query($conn, $query);
 
     if(($query_run) > 0)
